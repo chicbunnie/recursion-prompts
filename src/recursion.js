@@ -77,10 +77,21 @@ var range = function(x, y) {
   var flag = x - y;
   if (Math.abs(flag) < 2) {
     return [];
+  }
+  if (Math.abs(flag) === 2) {
+    if (flag > 0) {
+      return [x - 1];
+    } else {
+      return [x + 1];
+    }
   } else if (flag > 0) {
-    return range(x - 1, y);
+    var array = range(x - 1, y);
+    array.unshift(x - 1);
+    return array;
   } else if (flag < 0) {
-    return range(x + 1, y);
+    var array = range(x + 1, y);
+    array.unshift(x + 1);
+    return array;
   }
   
 };
@@ -122,10 +133,31 @@ var powerOfTwo = function(n) {
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  if (string.length === 0) {
+    return '';
+  }
+  if (string.length > 0) {
+    // console.log(string.substr(0,string.length - 1))
+    return string.substr(string.length - 1) + reverse(string.substr(0, string.length - 1));
+  }
+
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  // console.log(string);
+  if (string.length === 1) {
+    return true;
+  }
+  var first = string.substr(0, 1);
+  var last = string.substr(string.length - 1, 1);
+  if (first.toLowerCase() === last.toLowerCase()) {
+    if (string.length > 2) {
+      palindrome(string.substr(1, string.length - 2));
+      return true;
+    }
+  }
+  return false;
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -134,17 +166,37 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  if (x === 0 || y === 0) {
+    return 0;
+  }
+  if (y > 0) {
+    return x + multiply(x, y - 1);
+
+  } else if (y < 0) {
+    return -x + multiply(x, y + 1);
+
+  } 
   
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods.
 var divide = function(x, y) {
+  if ( x === 0 && y === 0 ) {
+    return NaN;
+  }
+  if (x === 0) {
+    return 0;
+  }
+  if (y === 1) {
+    return x;
+  }
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
@@ -164,18 +216,47 @@ var compareStr = function(str1, str2) {
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
+// var createArray = function(str) {
+
+// };
 var createArray = function(str) {
+  if (str.length > 1) {
+    var array = createArray(str.substr(1));
+    array.unshift(str.substr(0, 1));
+    return array;
+  } else {
+    return [str];
+  }
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+  if (array.length === 1) {
+    return array;
+  }  
+  if (array.length > 1) {
+    var first = array[0];
+    var array = reverseArr(array.slice(1));
+    array.push(first);
+  }
+
+
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  if (length === 1) {
+    return [value];
+  } else {
+    var array = buildList(value, length - 1);
+    array.unshift(value);
+    return array;
+  }
+
 };
+
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
 // For multiples of three, output 'Fizz' instead of the number.
