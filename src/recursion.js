@@ -242,6 +242,16 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+  if (x < 0 || y < 0) {
+    return null;
+  }
+  if (x === y) {
+    return x;
+  } else if (x > y) {
+    return gcd (x - y, y);
+  } else {
+    return gcd(x, y - x);
+  }
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
@@ -249,6 +259,19 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+  if ( str1 === '' && str2 === '') {
+    return true;
+  }
+  var firstStr1 = str1.substr(0, 1);
+  var firstStr2 = str2.substr(0, 1);
+  if (firstStr1 === firstStr2) {
+    if (str1.length > 1 || str2.length > 1) {
+      return true && compareStr(str1.substr(1), str2.substr(1));
+    }
+    return true;
+  } else {
+    return false;
+  }
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
@@ -275,6 +298,9 @@ var reverseArr = function(array) {
     var first = array[0];
     var array = reverseArr(array.slice(1));
     array.push(first);
+    return array;
+  } else {
+    return [];
   }
 
 
@@ -301,12 +327,38 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
+  if (n > 0) {
+    var a = fizzBuzz(n - 1);
+    if ( n % 3 === 0 && n % 5 === 0) {
+      a.push('FizzBuzz');
+    } else if (n % 3 === 0) {
+      a.push('Fizz');
+    } else if ( n % 5 === 0) {
+      a.push('Buzz');
+    } else {
+      a.push('' + n);
+    }
+    return a;
+  } else {
+    return [];
+  }
+
 };
 
 // 20. Count the occurence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  　if (array.length === 0) {
+    return 0;
+  }
+  if (array.length > 0) {
+    var counts = 0;
+    if (array[0] === value) {
+      counts = 1;
+    }
+    return counts + countOccurrence(array.slice(1), value);
+  }
 };
 
 // 21. Write a recursive version of map.
